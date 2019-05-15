@@ -94,4 +94,12 @@ B=  [0, Ydr;
     0, 0; 
     0, 0]
     
-damp(A)
+
+C=  [1 0 0 0 0;
+    0 1 0 0 0;
+    0 0 1 0 0;
+    0 0 0 1 0;
+    0 0 0 0 1]
+
+ee=syslin('c',A,B,C)damp(ee) //ee=espaço de estados
+damp(ee)  //dá os Wn dos 5 pólos (confirmei no matlab)
