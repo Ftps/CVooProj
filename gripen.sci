@@ -85,3 +85,5 @@ Lda=-0.384; Nda=-0.029; Ydr=-0.001; Ldr=-0.000; Ndr=-0.003;
 A = []
 
 B=[0, Ydr; Lda+(Ixz/Ix)*Nda, Ldr+(Ixz/Ix)*Ndr; Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr; 0, 0; 0, 0]
+
+hello
