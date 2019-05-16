@@ -1,71 +1,24 @@
 /*
---jas39 : flight condition : 1
-h =50 m; M =0.25; aa0 =3.69 deg; gg0 =0 deg ; u0 =165.1 kt; flaps =8 deg .
-throttle : th0 =29(%); de0 =0.00 deg ; da0 =0.00 deg ; dr0 =0.00 deg ;
-Teng =0.50 s; demax =+28/ -22 deg ; damax =18 deg ; drmax =23 deg ; flapmax =40 deg
-inertial data :
-m =10049 kg; Ix =1434311 kg.m ^2; Iy =65079 kg.m ^2; Iz =1385502 kg.m ^2; Ixz =1763 kg.m^2
-wing data : S =25.55 m ^2; b =8.382 m; c =2.235 m; aamax =19.69 deg
-derivatives (no units or SI units ):
-xu xw zu zw zwp zq mu mw mq mwp
--0.0434 0.0741 -0.2457 -0.7104 -0.0046 -1.0386 0.0000 -0.0557 -0.7485 -0.0365
-ybb lbb nbb yp lp np yr lr nr
--0.0438 -0.0379 0.1723 0.0007 -0.7252 0.0017 0.0019 0.0073 -0.0222
-xde zde mde xdsp zdsp mdsp xdt zdt mdt
-0.000 -0.002 -0.003 0.000 0.000 -0.077 7.650 0.000 0.000
-Lda Nda Ydr Ldr Ndr
--0.384 -0.029 -0.001 -0.000 -0.003
----------------
---jas39 : flight condition : 2
-h =1000 m; M =0.40; aa0 =3.69 deg ; gg0 =0 deg ; u0 =261.4 kt; flaps =0 deg .
-throttle : th0 =48(%); de0 =0.00 deg ; da0 =0.00 deg ; dr0 =0.00 deg ;
-Teng =0.50 s; demax =+28/ -22 deg ; damax =18 deg ; drmax =23 deg ; flapmax =40 deg
-inertial data :
-m =9183 kg; Ix =1772552 kg.m ^2; Iy =65079 kg.m ^2; Iz =1723742 kg.m ^2; Ixz =1763 kg.m^2
-wing data : S =25.55 m ^2; b =8.382 m; c =2.235 m; aamax =19.69 deg
-derivatives (no units or SI units ):
-xu xw zu zw zwp zq mu mw mq mwp
--0.0385 0.0455 -0.1521 -1.1287 -0.0046 -1.6404 0.0000 -0.0804 -1.0802 -0.0333
-ybb lbb nbb yp lp np yr lr nr
--0.0692 -0.0701 0.3163 0.0007 -0.8469 0.0020 0.0019 0.0085 -0.0258
-xde zde mde xdsp zdsp mdsp xdt zdt mdt
-0.000 -0.012 -0.020 0.000 0.000 -0.177 8.760 0.000 0.000
-Lda Nda Ydr Ldr Ndr
--0.707 -0.052 -0.005 -0.002 -0.013
----------------
---jas39 : flight condition : 3
-h =15240 m; M =1.90; aa0 =3.69 deg ; gg0 =0 deg ; u0 =1096.9 kt; flaps =0 deg .
-throttle : th0 =77(%); de0 =0.00 deg ; da0 =0.00 deg ; dr0 =0.00 deg ;Teng =0.50 s; demax =+28/ -22 deg ; damax =18 deg ; drmax =23 deg ; flapmax =40 deg
-inertial data :
-m =7882 kg; Ix =2787274 kg.m ^2; Iy =65079 kg.m ^2; Iz =2738464 kg.m ^2; Ixz =1763 kg.m^2
-wing data : S =25.55 m ^2; b =8.382 m; c =2.235 m; aamax =19.69 deg
-derivatives (no units or SI units ):
-xu xw zu zw zwp zq mu mw mq mwp
--0.0280 0.0118 -0.0275 -0.9669 -0.0017 -2.5928 0.0000 -0.1090 -1.4657 -0.0108
-ybb lbb nbb yp lp np yr lr nr
--0.1093 -0.2537 1.1336 0.0002 -0.7308 0.0017 0.0007 0.0073 -0.0220
-xde zde mde xdsp zdsp mdsp xdt zdt mdt
-0.000 -45.213 -61.202 0.000 0.000 -1.006 13.907 0.000 0.000
-Lda Nda Ydr Ldr Ndr
--0.363 -0.026 -0.080 -0.072 -0.442
----------------
---jas39 : flight condition : 4
-h =200 m; M =0.15; aa0 =3.69 deg ; gg0 =0 deg ; u0 =98.9 kt; flaps =40 deg.
-throttle : th0 =34(%); de0 =0.00 deg ; da0 =0.00 deg ; dr0 =0.00 deg ;
-Teng =0.50 s; demax =+28/ -22 deg ; damax =18 deg ; drmax =23 deg ; flapmax =40 deg
-inertial data :
-m =6799 kg; Ix =5493198 kg.m ^2; Iy =65079 kg.m ^2; Iz =5444389 kg.m ^2; Ixz =1763 kg.m^2
-wing data : S =25.55 m ^2; b =8.382 m; c =2.235 m; aamax =19.69 deg
-derivatives (no units or SI units ):
-xu xw zu zw zwp zq mu mw mq mwp
--0.1084 0.1201 -0.4065 -0.6294 -0.0067 -0.9064 0.0000 -0.0329 -0.4419 -0.0360
-ybb lbb nbb yp lp np yr lr nr
--0.0382 -0.0035 0.0155 0.0010 -0.1118 0.0003 0.0027 0.0011 -0.0033
-xde zde mde xdsp zdsp mdsp xdt zdt mdt
-0.000 -0.358 -0.418 0.000 0.000 -0.027 10.105 0.000 0.000
-Lda Nda Ydr Ldr Ndr
--0.036 -0.003 -0.007 -0.000 -0.002
+Projeto de CVoo:
+    - Francisco dos Santos, 86631
+    - Miguel Watson, *insert yer number here <3*
+
+Good luck, ya bastard
+ps: ctrl+shift+roda do rato faz zoom e ve.se beeem melhor com algum zoom
 */
+
+/*
+depois descobri que havia a função poles(sys) que fazia o que nós queriamos automaticamente
+mas ao menos assim deu para ver a sintaxe do scilab e o facto nojento de matrizes serem m() e nao m[]
+poles(sys) e poles_i(sys) dão o mesmo resultado so it works
+*/
+function p = poles_i(ss)
+    [wn, z] = damp(ss)
+    p = zeros(size(wn, '*'), 1)
+    for i = 1:size(wn, '*')
+        p(i) = wn(i)*(z(i) + %i*sqrt(1-z(i)^2))
+    end
+endfunction
 
 g = 9.81
 // --jas39 : flight condition : 1
@@ -101,5 +54,8 @@ C=  [1 0 0 0 0;
     0 0 0 1 0;
     0 0 0 0 1]
 
-ee=syslin('c',A,B,C)damp(ee) //ee=espaço de estados
-damp(ee)  //dá os Wn dos 5 pólos (confirmei no matlab)
+ee=syslin('c',A,B,C) //ee=espaço de estados
+[wn, z] = damp(ee)  //dá os Wn dos 5 pólos (confirmei no matlab) (alterei para [wn, z] para termos também os de fat. de amort.)
+
+p = poles_i(ee)
+
