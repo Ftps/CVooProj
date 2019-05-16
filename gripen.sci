@@ -71,7 +71,7 @@ g = 9.81
 // --jas39 : flight condition : 1
 h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8; theta0 = aa0+gg0;
 Teng =0.50; demax =[-22, 28]; damax =18; drmax =23; flapmax =40;
-th0 =29; de0 =0.00; da0 =0.00; dr0 =0.00;
+th0 =29; de0 =0.00; da0 =0.00; dr0 =0.00; g=9.81;
 //inertial data :
 m =10049; Ix =1434311; Iy =65079; Iz =1385502; Ixz =1763;
 //wing data :
@@ -81,7 +81,25 @@ xu=-0.0434; xw=0.0741; zu=-0.2457; zw=-0.7104; zwp=-0.0046; zq=-1.0386; mu=0.000
 ybb=-0.0438; lbb=-0.0379; nbb=0.1723; yp=0.0007; lp=-0.7252; np=0.0017; yr=0.0019; lr=0.0073; nr=-0.0222;
 xde=0.000; zde=-0.002; mde=-0.003; xdsp=0.000; zdsp=0.000; mdsp=-0.077; xdt=7.650; zdt=0.000; mdt=0.000;
 Lda=-0.384; Nda=-0.029; Ydr=-0.001; Ldr=-0.000; Ndr=-0.003;
+tt0=gg0+aa0; //theta_zero
+
+A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0), 0;
+    lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0, 0;
+    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0, 0;
+    0, 1, tan(tt0), 0, 0;
+    0, 0, 1/cos(tt0), 0, 0]
+B=  [0, Ydr;
+    Lda+(Ixz/Ix)*Nda, Ldr+(Ixz/Ix)*Ndr;
+    Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr;
+    0, 0;
+    0, 0]
 
 
+C=  [1 0 0 0 0;
+    0 1 0 0 0;
+    0 0 1 0 0;
+    0 0 0 1 0;
+    0 0 0 0 1]
 
-A = [ybb, yp+m*g, yr-u0, g*cos(theta0), 0; ]
+ee=syslin('c',A,B,C)damp(ee) //ee=espaço de estados
+damp(ee)  //dá os Wn dos 5 pólos (confirmei no matlab)
