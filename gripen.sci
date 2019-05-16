@@ -67,9 +67,9 @@ Lda Nda Ydr Ldr Ndr
 -0.036 -0.003 -0.007 -0.000 -0.002
 */
 
-
+g = 9.81
 // --jas39 : flight condition : 1
-h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8;
+h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8; theta0 = aa0+gg0;
 Teng =0.50; demax =[-22, 28]; damax =18; drmax =23; flapmax =40;
 th0 =29; de0 =0.00; da0 =0.00; dr0 =0.00;
 //inertial data :
@@ -82,4 +82,6 @@ ybb=-0.0438; lbb=-0.0379; nbb=0.1723; yp=0.0007; lp=-0.7252; np=0.0017; yr=0.001
 xde=0.000; zde=-0.002; mde=-0.003; xdsp=0.000; zdsp=0.000; mdsp=-0.077; xdt=7.650; zdt=0.000; mdt=0.000;
 Lda=-0.384; Nda=-0.029; Ydr=-0.001; Ldr=-0.000; Ndr=-0.003;
 
-A = []
+
+
+A = [ybb, yp+m*g, yr-u0, g*cos(theta0), 0; ]
