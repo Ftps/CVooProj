@@ -1,10 +1,9 @@
 /*
 Projeto de CVoo:
     - Francisco dos Santos, 86631
-    - Miguel Watson, *insert yer number here <3*
+    - Miguel Morgado, 86668
 
 Good luck, ya bastard
-ps: ctrl+shift+roda do rato faz zoom e ve.se beeem melhor com algum zoom
 */
 
 /*
@@ -55,7 +54,7 @@ C=  [1 0 0 0 0;
     0 0 0 0 1]
 
 ee=syslin('c',A,B,C) //ee=espaço de estados
-[wn, z] = damp(ee)  //dá os Wn dos 5 pólos (confirmei no matlab) (alterei para [wn, z] para termos também os de fat. de amort.)
+[wn, z] = damp(ee)  //dá os Wn e os qsi dos 5 pólos
 
 p = poles_i(ee)
 
