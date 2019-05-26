@@ -13,11 +13,17 @@ poles(sys) e poles_i(sys) dão o mesmo resultado so it works
 */
 function p = poles_i(ss)
     [wn, z] = damp(ss)
-    p = zeros(size(wn, '*'), 1)
-    for i = 1:size(wn, '*')
-        p(i) = wn(i)*(z(i) + %i*sqrt(1-z(i)^2))
+    p = zeros(size(wn, '*'), 1);
+    for i = 1:size(wn, '*');
+        p(i) = wn(i)*(z(i) + %i*sqrt(1-z(i)^2));
     end
 endfunction
+
+ftps = '/home/ftps/Prog/CVooProj/Feed-Back Loop System.zcos'
+morg = ''
+
+max_x = [0.26179916666666666667, 3, 3, 0.3490656, 0.3490656];
+max_u = [0.1396262, 0.2617992];
 
 g = 9.81
 // --jas39 : flight condition : 1
@@ -61,9 +67,10 @@ p = poles_i(ee);
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-Q = diag([1, 5, 0.3, 2, 3]);    // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
-R = diag([2, 1]);               // Matriz de custo para o vetor de entradas - for testing purposes
-                                // Posteriormente usar método de Bryson
+// x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
+Q = diag(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
+R = diag(max_u);               // Matriz de custo para o vetor de entradas - for testing purposes   diag([1, 5, 0.3, 2, 3]);
+                                // Posteriormente usar método de Bryson       diag([2, 1]);
 
 Big=sysdiag(Q,R);
 [w,wp]=fullrf(Big);C1=wp(:,1:5);D12=wp(:,6:$);
