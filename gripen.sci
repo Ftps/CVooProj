@@ -48,14 +48,36 @@ B=  [0, Ydr;
     0, 0]
 
 
-C=  [1 0 0 0 0;
-    0 1 0 0 0;
-    0 0 1 0 0;
-    0 0 0 1 0;
-    0 0 0 0 1]
+C = diag([1,1,1,1,1]);
+
 
 ee=syslin('c',A,B,C) //ee=espaço de estados
 [wn, z] = damp(ee)  //dá os Wn dos 5 pólos (confirmei no matlab) (alterei para [wn, z] para termos também os de fat. de amort.)
 
-p = poles_i(ee)
+p = poles_i(ee);
 
+// Para trabalhar com o XCos (simulink do SciLab), ver links em baixo:
+// https://steemit.com/utopian-io/@svozkan/simple-control-system-design-with-xcos-scilab-tutorial
+// https://steemit.com/utopian-io/@svozkan/xcos-modelling-and-simulation-scilab-tutorial
+
+// https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
+
+Q = diag([1, 5, 0.3, 2, 3]);    // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
+R = diag([2, 1]);               // Matriz de custo para o vetor de entradas - for testing purposes
+                                // Posteriormente usar método de Bryson
+
+Big=sysdiag(Q,R);
+[w,wp]=fullrf(Big);C1=wp(:,1:5);D12=wp(:,6:$);
+                                    //   ^^  6:$ restante da matriz, vetor de entradas
+                        // ^^  1:5 dimensão do vetor de estado, (3 variaveis de estado, 1:3)
+
+P=syslin('c',A,B,C1,D12);
+[K,X]=lqr(P);
+
+K = -K
+G = -C*inv(A-B*K)*B;
+F = pinv(-C*inv(A-B*K)*B);
+
+pol = spec(A-B*K); // polos do sistema em LQR
+print(%io(2), pol);
+print(%io(2), 'you bitch');
