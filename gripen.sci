@@ -19,11 +19,18 @@ function p = poles_i(ss)
     end
 endfunction
 
-ftps = '/home/ftps/Prog/CVooProj/Feed-Back Loop System.zcos'
-morg = ''
+function M = get_Mat(v)     // função a ser usada no metodo de Bryson para determinar as matrizes Q e R
+    s = size(v, '*');
+    M = zeros(s, s)
+    for i = 1:s
+        M(i,i) = 1/v(i)^2;
+    end
+endfunction
 
-max_x = [0.26179916666666666667, 3, 3, 0.3490656, 0.3490656];
-max_u = [0.1396262, 0.2617992];
+fp = './Feed-Back Loop System.zcos'
+
+max_x = [15*%pi/180, 3, 3, 20*%pi/180, 20*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [8*%pi/180, 15*%pi/180];
 
 g = 9.81
 // --jas39 : flight condition : 1
@@ -68,22 +75,26 @@ p = poles_i(ee);
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
-Q = diag(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
-R = diag(max_u);               // Matriz de custo para o vetor de entradas - for testing purposes   diag([1, 5, 0.3, 2, 3]);
-                                // Posteriormente usar método de Bryson       diag([2, 1]);
+Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
+R = get_Mat(max_u);               // Matriz de custo para o vetor de entradas - for testing purposes   diag([1, 5, 0.3, 2, 3]);
+                                // Posteriormente usar método de Bryson       diag([2, 1]); <- feito com o max_x e max_u
 
 Big=sysdiag(Q,R);
 [w,wp]=fullrf(Big);C1=wp(:,1:5);D12=wp(:,6:$);
                                     //   ^^  6:$ restante da matriz, vetor de entradas
                         // ^^  1:5 dimensão do vetor de estado, (3 variaveis de estado, 1:3)
+                        // ver o link em cima para perceber melhor
 
 P=syslin('c',A,B,C1,D12);
 [K,X]=lqr(P);
 
-K = -K
+K = -K                  // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
 G = -C*inv(A-B*K)*B;
-F = pinv(-C*inv(A-B*K)*B);
+F = pinv(G);            // something is wrong with this, ver seventa a matriz F do LQR
+
+norm(A'*X+X*A-X*B*inv(R)*B'*X+Q,1)
 
 pol = spec(A-B*K); // polos do sistema em LQR
-print(%io(2), pol);
-print(%io(2), 'you bitch');
+disp(pol);
+
+xcos(fp);
