@@ -1,0 +1,12 @@
+Nosso tema:
+42 Gripen-1 
+SAE/atitude: derrapagem e ângulo de rolamento
+Simulação: patrulha
+
+PATRULHA
+Para uma missão de observação e vigilância, deseja-se seguir a altitude constante a trajectória horizontal proposta na figura a seguir, onde o raio mínimo será determinado em função das característicasda aeronave na condição de voo indicada. A posição da aeronave é obtida pelo GPS.
+
+
+
+
+Pessoas com o mesmo avião: André Oliveira e José Rocha, Luís Rodrigues e Luís Pereira, Manuel Pimentel e Diogo Silva
