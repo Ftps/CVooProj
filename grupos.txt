@@ -3,10 +3,25 @@ Nosso tema:
 SAE/atitude: derrapagem e ângulo de rolamento
 Simulação: patrulha
 
+
+Pessoas com o mesmo avião: André Oliveira e José Rocha, Luís Rodrigues e Luís Pereira, Manuel Pimentel e Diogo Silva
+
+
 PATRULHA
 Para uma missão de observação e vigilância, deseja-se seguir a altitude constante a trajectória horizontal proposta na figura a seguir, onde o raio mínimo será determinado em função das característicasda aeronave na condição de voo indicada. A posição da aeronave é obtida pelo GPS.
 
+-----------------------------------------------------
+Objetivo do Trabalho
 
-
-
-Pessoas com o mesmo avião: André Oliveira e José Rocha, Luís Rodrigues e Luís Pereira, Manuel Pimentel e Diogo Silva
+O relatório sintético (até 10 páginas) deverá ser organizado em forma de artigo (i.e. com resumo,
+introdução, justificações teóricas, referências bibliográficas, gráficos inseridos no texto) - o relatório
+(e não eventuais anexos) deve conter todos os elementos pertinentes para suportar o raciocínio, os
+resultados e as conclusões.
+Os passos a seguir são os seguintes:
+1. determinação e análise do modelo estudado
+2. aumento de estabilidade/estabilização: objectivo; escolha de método(s); análise do anel fechado
+3. controlo de atitude/trajectória: objectivo; escolha de método(s); análise do anel fechado
+4. inclusão dos sensores/actuadores: modelação, correcções, análise do anel fechado
+5. simulação no domínio do tempo/análise complementar
+6. conclusões/análise crítica
+7. referências/bibliografia eventual
