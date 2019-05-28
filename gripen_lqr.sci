@@ -27,9 +27,6 @@ endfunction
 
 fp = './Feed-Back Loop System.zcos'
 
-max_x = [5*%pi/180, 3, 3, 20*%pi/180, 2*%pi];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [18*%pi/180, 23*%pi/180];
-
 g = 9.81;
 // --jas39 : flight condition : 1
 h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8; theta0 = aa0+gg0;
@@ -75,19 +72,23 @@ disp(p);
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
+max_x = [5*%pi/180, 3, 3, 20*%pi/180, 2*%pi];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [18*%pi/180, 23*%pi/180];
+
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
 Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
 R = get_Mat(max_u);               // Matriz de custo para o vetor de entradas - for testing purposes   diag([1, 5, 0.3, 2, 3]);
                                 // Posteriormente usar método de Bryson       diag([2, 1]); <- feito com o max_x e max_u
-
+                                
+//Aqui começa o lqr(A,B,C1,D12)
 Big=sysdiag(Q,R);
 [w,wp]=fullrf(Big);C1=wp(:,1:5);D12=wp(:,6:$);
                                     //   ^^  6:$ restante da matriz, vetor de entradas
                         // ^^  1:5 dimensão do vetor de estado, (3 variaveis de estado, 1:3)
-                        // ver o link em cima para perceber melhor
 
 P=syslin('c',A,B,C1,D12);
 [K,X]=lqr(P);
+// Acaba aqui. Estas linhs de codigo fazem o LQR no Scilab
 
 K = -K                  // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
 G = -C*inv(A-B*K)*B;
