@@ -72,8 +72,8 @@ disp(p);
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-max_x = [5*%pi/180, 3, 3, 20*%pi/180, 2*%pi];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [18*%pi/180, 23*%pi/180];
+max_x = [5*%pi/180, 20*%pi/180, 10*%pi/180, 20*%pi/180, 15*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [18*%pi/180, 23*%pi/180]; //temos depois de limitar isto à saida do sistema com um threshold
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
 Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
@@ -112,3 +112,12 @@ disp(omegaN(1),"Wn do RH=")
 disp(z(1)*omegaN(1),"Xi*Wn do RH=")
 disp(T_eq(3),"T_eq do R+S=")
 */
+
+Z=syslin('c',A-B*K,B,C);
+plzr(Z)
+[omegaN,z]=damp(pol);
+T_eq=1./(omegaN.*z);
+disp(z(1),"Xi do RH=")
+disp(omegaN(1),"Wn do RH=")
+disp(z(1)*omegaN(1),"Xi*Wn do RH=")
+disp(T_eq(3),"T_eq do R+S=")
