@@ -2,8 +2,6 @@
 Projeto de CVoo:
     - Francisco dos Santos, 86631
     - Miguel Morgado, 86668
-
-Good luck, ya bastard
 */
 
 /*
@@ -15,7 +13,7 @@ function p = poles_i(ss)
     [wn, z] = damp(ss)
     p = zeros(size(wn, '*'), 1);
     for i = 1:size(wn, '*');
-        p(i) = wn(i)*(z(i) + %i*sqrt(1-z(i)^2));
+        p(i) = -wn(i)*(z(i) + %i*sqrt(1-z(i)^2));
     end
 endfunction
 
@@ -66,8 +64,9 @@ C = diag([1,1,1,1,1]);
 ee=syslin('c',A,B,C) //ee=espaço de estados
 [wn, z] = damp(ee)  //dá os Wn e os qsi dos 5 pólos
 
+disp("Polos do sistema sem.controlador");
 p = poles_i(ee);
-
+disp(p);
 // Para trabalhar com o XCos (simulink do SciLab), ver links em baixo:
 // https://steemit.com/utopian-io/@svozkan/simple-control-system-design-with-xcos-scilab-tutorial
 // https://steemit.com/utopian-io/@svozkan/xcos-modelling-and-simulation-scilab-tutorial
@@ -94,6 +93,7 @@ F = pinv(G);            // something is wrong with this, ver sebenta a matriz F 
 
 norm(A'*X+X*A-X*B*inv(R)*B'*X+Q,1)
 
+disp("Polos do sistema apos LQR");
 pol = spec(A-B*K); // polos do sistema em LQR
 disp(pol);
 
