@@ -30,7 +30,7 @@ fp = './Feed-Back Loop System.zcos'
 max_x = [15*%pi/180, 3, 3, 20*%pi/180, 20*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
 max_u = [8*%pi/180, 15*%pi/180];
 
-g = 9.81
+g = 9.81;
 // --jas39 : flight condition : 1
 h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8; theta0 = aa0+gg0;
 Teng =0.50; demax =[-22, 28]; damax =18; drmax =23; flapmax =40;
@@ -50,23 +50,25 @@ A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0), 0;
     lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0, 0;
     nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0, 0;
     0, 1, tan(tt0), 0, 0;
-    0, 0, 1/cos(tt0), 0, 0]
+    0, 0, 1/cos(tt0), 0, 0];
 B=  [0, Ydr;
     Lda+(Ixz/Ix)*Nda, Ldr+(Ixz/Ix)*Ndr;
     Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr;
     0, 0;
-    0, 0]
+    0, 0];
 
 
 C = diag([1,1,1,1,1]);
 
 
 ee=syslin('c',A,B,C) //ee=espaço de estados
-[wn, z] = damp(ee)  //dá os Wn e os qsi dos 5 pólos
+[wn, z] = damp(ee);  //dá os Wn e os qsi dos 5 pólos
 
 disp("Polos do sistema sem.controlador");
 p = poles_i(ee);
 disp(p);
+// plzr(ee) --> função que te desenha os pólos (e zeros) no plano complexo
+
 // Para trabalhar com o XCos (simulink do SciLab), ver links em baixo:
 // https://steemit.com/utopian-io/@svozkan/simple-control-system-design-with-xcos-scilab-tutorial
 // https://steemit.com/utopian-io/@svozkan/xcos-modelling-and-simulation-scilab-tutorial
@@ -98,3 +100,8 @@ pol = spec(A-B*K); // polos do sistema em LQR
 disp(pol);
 
 xcos(fp);
+
+/* código para desenhar pólos do sistema apos o LQR no plano complexo:
+Z=syslin('c',A-B*K,B,C)
+plzr(Z)
+*/
