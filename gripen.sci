@@ -27,7 +27,7 @@ function M = get_Mat(v)     // função a ser usada no metodo de Bryson para det
     end
 endfunction
 
-fp = './Feed-Back Loop System.zcos'
+fp = 'Feed-Back Loop System.zcos'
 
 max_x = [15*%pi/180, 3, 3, 20*%pi/180, 20*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
 max_u = [8*%pi/180, 15*%pi/180];
@@ -90,7 +90,7 @@ P=syslin('c',A,B,C1,D12);
 
 K = -K                  // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
 G = -C*inv(A-B*K)*B;
-F = pinv(G);            // something is wrong with this, ver seventa a matriz F do LQR
+F = pinv(G);            // something is wrong with this, ver sebenta a matriz F do LQR
 
 norm(A'*X+X*A-X*B*inv(R)*B'*X+Q,1)
 
