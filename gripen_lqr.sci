@@ -61,7 +61,7 @@ C = diag([1,1,1,1,1]);
 ee=syslin('c',A,B,C) //ee=espaço de estados
 [wn, z] = damp(ee);  //dá os Wn e os qsi dos 5 pólos
 
-disp("Polos do sistema sem.controlador");
+disp("Polos do sistema sem controlador");
 p = poles_i(ee);
 disp(p);
 // plzr(ee) --> função que te desenha os pólos (e zeros) no plano complexo
@@ -102,8 +102,13 @@ disp(pol);
 
 xcos(fp);
 
-/* código para desenhar pólos do sistema apos o LQR no plano complexo:
+/* código para desenhar pólos do sistema apos o LQR no plano complexo e obter as caracteristicas para as qualidades de voo:
 Z=syslin('c',A-B*K,B,C);
 plzr(Z)
-[omegaN,z]=damp(pol)
+[omegaN,z]=damp(pol);
+T_eq=1./(omegaN.*z);
+disp(z(1),"Xi do RH=")
+disp(omegaN(1),"Wn do RH=")
+disp(z(1)*omegaN(1),"Xi*Wn do RH=")
+disp(T_eq(3),"T_eq do R+S=")
 */
