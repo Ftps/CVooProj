@@ -27,8 +27,8 @@ endfunction
 
 fp = './Feed-Back Loop System.zcos'
 
-max_x = [15*%pi/180, 3, 3, 20*%pi/180, 20*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [8*%pi/180, 15*%pi/180];
+max_x = [5*%pi/180, 3, 3, 20*%pi/180, 2*%pi];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [18*%pi/180, 23*%pi/180];
 
 g = 9.81;
 // --jas39 : flight condition : 1
@@ -102,6 +102,7 @@ disp(pol);
 xcos(fp);
 
 /* código para desenhar pólos do sistema apos o LQR no plano complexo:
-Z=syslin('c',A-B*K,B,C)
+Z=syslin('c',A-B*K,B,C);
 plzr(Z)
+[omegaN,z]=damp(pol)
 */
