@@ -40,28 +40,31 @@ B=  [0, Ydr;
     Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr;
     0, 0;
     0, 0];
+C = diag([1,1,1,1,1]);
+ee=syslin('c',A,B,C) //ee=espaço de estados  
 
-C = diag([0,1,0,0,0]);
-
-
-ee=syslin('c',A,B,C) //ee=espaço de estados
-[wn, z] = damp(ee);  //dá os Wn e os qsi dos 5 pólos
-
-disp("Polos do sistema sem.controlador");
+//------------Calculando os polos, frequencias e amortecimentos -----------------
 p = poles_i(ee);
-disp(p);
+//disp(p,"Polos do sistema sem.controlador");
 //plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
-[omegaN,z]=damp(ee)
-T_eq=1./(omegaN.*z)
+[wn,z]=damp(ee); //dá os Wn e os qsi dos 5 pólos
+T_eq=1./(omegaN.*z);
 
-K=[0,0,0,0,0;
+//------------SAE para o rolamento holandes -> realimentaçao de r-------------
+C1=[0,0,1,0,0]
+sae=syslin('c',A-K*C,B(:,2),C1);
+
+/*K=[0,0,0,0,0;
     0,0,0,0,0;
     0,-1,0,0,0;
     0,0,0,0,0;
-    0,0,0,0,0]
+    0,0,0,0,0]*/
 
-sae=syslin('c',A-K*C,B,C);
-[Wn, xi] = damp(sae);
-disp(poles_i(sae))
+//Mostra as funçoes de transferência para por no relatorio
+[h]=ss2tf(ee);
+h_a=h(:,1);
+h_r=h(:,2);
 
-h=ss2tf(ee)
+
+
+//substituir poles_i por spec
