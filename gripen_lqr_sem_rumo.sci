@@ -4,12 +4,6 @@ Projeto de CVoo:
     - Miguel Morgado, 86668
 */
 
-/*
-depois descobri que havia a função poles(sys) que fazia o que nós queriamos automaticamente
-mas ao menos assim deu para ver a sintaxe do scilab e o facto nojento de matrizes serem m() e nao m[]
-poles(sys) e poles_i(sys) dão o mesmo resultado so it works
-*/
-
 clear
 
 function p = poles_i(ss)
@@ -73,6 +67,7 @@ disp(p); */
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
+
 max_x = [3*%pi/180, 3*%pi/180, 0.84*%pi/180, 30*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
 max_u = [18*%pi/180, 20*%pi/180]; //temos depois de limitar isto à saida do sistema com um threshold
 
@@ -118,5 +113,6 @@ disp(T_eq(3),"T_eq do R+S=")
 */
 
 Z=syslin('c',A-B*K,B,C);
-[omegaN,z]=damp(pol);
-T_eq=1./(omegaN.*z);
+[omegaN,z]=damp(pol)
+T_eq=1./(omegaN.*z)
+
