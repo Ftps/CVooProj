@@ -107,7 +107,7 @@ P=syslin('c',A,B,C1,D12);
 // Acaba aqui. Estas linhs de codigo fazem o LQR no Scilab
 K = -K;
 C_1 = [1, 0, 0, 0, 0;
-       0, 0, 0, 1, 0];
+       0, 0, 0, 0, 1];
 
           // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
 G = -C_1*inv(A-B*K)*B;
