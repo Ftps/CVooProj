@@ -9,6 +9,9 @@ depois descobri que havia a função poles(sys) que fazia o que nós queriamos a
 mas ao menos assim deu para ver a sintaxe do scilab e o facto nojento de matrizes serem m() e nao m[]
 poles(sys) e poles_i(sys) dão o mesmo resultado so it works
 */
+
+clear
+
 function p = poles_i(ss)
     [wn, z] = damp(ss)
     p = zeros(size(wn, '*'), 1);
@@ -25,7 +28,7 @@ function M = get_Mat(v)     // função a ser usada no metodo de Bryson para det
     end
 endfunction
 
-fp = './Feed-Back Loop System.zcos'
+fp = 'Feed-Back Loop System.zcos'
 
 g = 9.81;
 // --jas39 : flight condition : 1
@@ -70,8 +73,8 @@ disp(p); */
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-max_x = [6*%pi/180, 5*%pi/180, 7*%pi/180, 10*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [15*%pi/180, 20*%pi/180]; //temos depois de limitar isto à saida do sistema com um threshold
+max_x = [0.5*%pi/180, 5*%pi/180, 20*%pi/180, 0.01*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [15*%pi/180, 23*%pi/180]; //temos depois de limitar isto à saida do sistema com um threshold
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
 Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
@@ -81,16 +84,19 @@ R = get_Mat(max_u);               // Matriz de custo para o vetor de entradas - 
 //Aqui começa o lqr(A,B,C1,D12)
 Big=sysdiag(Q,R);
 [w,wp]=fullrf(Big);C1=wp(:,1:4);D12=wp(:,5:$);
-                                    //   ^^  6:$ restante da matriz, vetor de entradas
-                        // ^^  1:5 dimensão do vetor de estado, (3 variaveis de estado, 1:3)
+                                    //   ^^  5:$ restante da matriz, vetor de entradas
+                        // ^^  1:4 dimensão do vetor de estado, (3 variaveis de estado, 1:3)
 
 P=syslin('c',A,B,C1,D12);
 [K,X]=lqr(P);
 // Acaba aqui. Estas linhs de codigo fazem o LQR no Scilab
 
+C_1 = [1, 0, 0, 0;
+       0, 0, 0, 1];
+
 K = -K          // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
-G = -C*inv(A-B*K)*B;
-F = pinv(G);            // something is wrong with this, ver sebenta a matriz F do LQR
+G = -C_1*inv(A-B*K)*B;
+F = inv(G);            // something is wrong with this, ver sebenta a matriz F do LQR
 
 norm(A'*X+X*A-X*B*inv(R)*B'*X+Q,1)
 

@@ -9,6 +9,9 @@ depois descobri que havia a função poles(sys) que fazia o que nós queriamos a
 mas ao menos assim deu para ver a sintaxe do scilab e o facto nojento de matrizes serem m() e nao m[]
 poles(sys) e poles_i(sys) dão o mesmo resultado so it works
 */
+
+clear
+
 function p = poles_i(ss)
     [wn, z] = damp(ss)
     p = zeros(size(wn, '*'), 1);
@@ -23,6 +26,19 @@ function M = get_Mat(v)     // função a ser usada no metodo de Bryson para det
     for i = 1:s
         M(i,i) = 1/v(i)^2;
     end
+endfunction
+
+function F = stupid(A)
+    F = diag([1,1]);
+    disp(F);
+    F = [1/A(1,1), 0; 0, 1]*F;
+    disp(F);
+    F = [1, 0; -c, 1]*F;
+    disp(F);
+    F = [1, 0; 0, 1/(A(2,2)-A(2,1)*A(1,2)/A(1,1))]*F;
+    disp(F);
+    F = [1,-A(1,1)/A(1,2); 0, 1]*F;
+    disp(F);
 endfunction
 
 fp = 'Feed-Back Loop System.zcos'
@@ -72,8 +88,8 @@ disp(p);      */
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-max_x = [6*%pi/180, 5*%pi/180, 7*%pi/180, 10*%pi/180, 15*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [15*%pi/180, 20*%pi/180]; //temos depois de limitar isto à saida do sistema com um threshold
+max_x = [2*%pi/180, 5*%pi/180, 20*%pi/180, 2*%pi/180, 3*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [15*%pi/180, 23*%pi/180]; //temos depois de limitar isto à saida do sistema com um thresholdd
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
 Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
@@ -89,10 +105,13 @@ Big=sysdiag(Q,R);
 P=syslin('c',A,B,C1,D12);
 [K,X]=lqr(P);
 // Acaba aqui. Estas linhs de codigo fazem o LQR no Scilab
+K = -K;
+C_1 = [1, 0, 0, 0, 0;
+       0, 0, 0, 1, 0];
 
-K = -K          // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
-G = -C*inv(A-B*K)*B;
-F = pinv(G);            // something is wrong with this, ver sebenta a matriz F do LQR
+          // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
+G = -C_1*inv(A-B*K)*B;
+F = inv(G);            // a G está toda comida
 
 norm(A'*X+X*A-X*B*inv(R)*B'*X+Q,1)
 
@@ -114,6 +133,6 @@ disp(T_eq(3),"T_eq do R+S=")
 */
 
 Z=syslin('c',A-B*K,B,C);
-plzr(Z)
+//plzr(Z)
 [omegaN,z]=damp(pol)
 T_eq=1./(omegaN.*z)
