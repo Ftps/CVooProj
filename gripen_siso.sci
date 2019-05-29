@@ -1,14 +1,9 @@
 /*
-Projeto de CVoo:
+Projeto 42 de CVoo:
     - Francisco dos Santos, 86631
     - Miguel Morgado, 86668
 */
 
-/*
-depois descobri que havia a função poles(sys) que fazia o que nós queriamos automaticamente
-mas ao menos assim deu para ver a sintaxe do scilab e o facto nojento de matrizes serem m() e nao m[]
-poles(sys) e poles_i(sys) dão o mesmo resultado so it works
-*/
 function p = poles_i(ss)
     [wn, z] = damp(ss)
     p = zeros(size(wn, '*'), 1);
@@ -17,18 +12,7 @@ function p = poles_i(ss)
     end
 endfunction
 
-function M = get_Mat(v)     // função a ser usada no metodo de Bryson para determinar as matrizes Q e R
-    s = size(v, '*');
-    M = zeros(s, s)
-    for i = 1:s
-        M(i,i) = 1/v(i)^2;
-    end
-endfunction
-
 fp = './Feed-Back Loop System.zcos'
-
-max_x = [15*%pi/180, 3, 3, 20*%pi/180, 20*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [8*%pi/180, 15*%pi/180];
 
 g = 9.81;
 // --jas39 : flight condition : 1
@@ -46,19 +30,17 @@ xde=0.000; zde=-0.002; mde=-0.003; xdsp=0.000; zdsp=0.000; mdsp=-0.077; xdt=7.65
 Lda=-0.384; Nda=-0.029; Ydr=-0.001; Ldr=-0.000; Ndr=-0.003;
 tt0=gg0+aa0; //theta_zero
 
-A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0), 0;
-    lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0, 0;
-    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0, 0;
-    0, 1, tan(tt0), 0, 0;
-    0, 0, 1/cos(tt0), 0, 0];
+A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0);
+    lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0;
+    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0;
+    0, 1, tan(tt0), 0];
 B=  [0, Ydr;
     Lda+(Ixz/Ix)*Nda, Ldr+(Ixz/Ix)*Ndr;
     Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr;
-    0, 0;
     0, 0];
 
 
-C = diag([1,1,1,1,1]);
+C = diag([1,1,1,1]);
 
 
 ee=syslin('c',A,B,C) //ee=espaço de estados
@@ -67,12 +49,8 @@ ee=syslin('c',A,B,C) //ee=espaço de estados
 disp("Polos do sistema sem.controlador");
 p = poles_i(ee);
 disp(p);
-// plzr(ee) --> função que te desenha os pólos (e zeros) no plano complexo
-
-// Para trabalhar com o XCos (simulink do SciLab), ver links em baixo:
-// https://steemit.com/utopian-io/@svozkan/simple-control-system-design-with-xcos-scilab-tutorial
-// https://steemit.com/utopian-io/@svozkan/xcos-modelling-and-simulation-scilab-tutorial
-
-// https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
+plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
+[omegaN,z]=damp(ee)
+T_eq=1./(omegaN.*z)
 
 
