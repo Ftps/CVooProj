@@ -67,7 +67,8 @@ disp(p); */
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-max_x = [3*%pi/180, 3*%pi/180, 0.5*%pi/180, 2.7*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
+
+max_x = [3*%pi/180, 3*%pi/180, 0.84*%pi/180, 30*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
 max_u = [18*%pi/180, 20*%pi/180]; //temos depois de limitar isto à saida do sistema com um threshold
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
@@ -114,3 +115,4 @@ disp(T_eq(3),"T_eq do R+S=")
 Z=syslin('c',A-B*K,B,C);
 [omegaN,z]=damp(pol)
 T_eq=1./(omegaN.*z)
+

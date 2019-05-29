@@ -88,7 +88,7 @@ disp(p);      */
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-max_x = [2*%pi/180, 5*%pi/180, 20*%pi/180, 2*%pi/180, 3*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
+max_x = [2*%pi/180, 5*%pi/180, 20*%pi/180, 2*%pi/180, 0.1*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
 max_u = [15*%pi/180, 23*%pi/180]; //temos depois de limitar isto à saida do sistema com um thresholdd
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
