@@ -30,17 +30,18 @@ xde=0.000; zde=-0.002; mde=-0.003; xdsp=0.000; zdsp=0.000; mdsp=-0.077; xdt=7.65
 Lda=-0.384; Nda=-0.029; Ydr=-0.001; Ldr=-0.000; Ndr=-0.003;
 tt0=gg0+aa0; //theta_zero
 
-A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0);
-    lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0;
-    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0;
-    0, 1, tan(tt0), 0];
+A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0), 0;
+    lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0, 0;
+    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0, 0;
+    0, 1, tan(tt0), 0, 0;
+    0, 0, 1/cos(tt0), 0, 0];
 B=  [0, Ydr;
     Lda+(Ixz/Ix)*Nda, Ldr+(Ixz/Ix)*Ndr;
     Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr;
+    0, 0;
     0, 0];
 
-
-C = diag([1,1,1,1]);
+C = diag([0,1,0,0,0]);
 
 
 ee=syslin('c',A,B,C) //ee=espaço de estados
@@ -49,8 +50,18 @@ ee=syslin('c',A,B,C) //ee=espaço de estados
 disp("Polos do sistema sem.controlador");
 p = poles_i(ee);
 disp(p);
-plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
+//plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
 [omegaN,z]=damp(ee)
 T_eq=1./(omegaN.*z)
 
+K=[0,0,0,0,0;
+    0,0,0,0,0;
+    0,-1,0,0,0;
+    0,0,0,0,0;
+    0,0,0,0,0]
 
+sae=syslin('c',A-K*C,B,C);
+[Wn, xi] = damp(sae);
+disp(poles_i(sae))
+
+h=ss2tf(ee)
