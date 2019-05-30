@@ -44,26 +44,25 @@ C = diag([1,1,1,1,1]);
 ee=syslin('c',A,B,C) //ee=espaço de estados  
 
 //------------Calculando os polos, frequencias e amortecimentos -----------------
-p = poles_i(ee);
-disp(p,"Polos do sistema sem.controlador");
-plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
-[wn,z]=damp(ee); //dá os Wn e os qsi dos 5 pólos
-T_eq=1./(wn.*z);
+//p = poles_i(ee);
+//disp(p,"Polos do sistema sem.controlador");
+//plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
+//[wn,z]=damp(ee); //dá os Wn e os qsi dos 5 pólos
+//T_eq=1./(wn.*z);
 
 //------------SAE para o rolamento holandes -> realimentaçao de r-------------
 C1=[0,0,1,0,0]
 K=[0,0,0,0,0;
-    0,0,-50,0,0]
+   0,0,-340,0,0]          
 
     
 sae=syslin('c',A-B*K,B(:,2),C1);
 //------------Calculando os polos, frequencias e amortecimentos -----------------
 p = poles_i(sae);
-disp(p,"Polos do sistema realimentado");
-//plzr(sae) // função que te desenha os pólos (e zeros) no plano complexo
+plzr(sae) // função que te desenha os pólos (e zeros) no plano complexo
 [wn,z]=damp(sae) //dá os Wn e os qsi dos 5 pólos
 T_eq=1./(wn.*z);
-
+disp([p,wn,z],"Polos do sistema realimentado");
 
 //Mostra as funçoes de transferência para por no relatorio
 [h]=ss2tf(ee);
