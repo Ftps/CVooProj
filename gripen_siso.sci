@@ -53,16 +53,19 @@ ee=syslin('c',A,B,C) //ee=espaço de estados
 //------------SAE para o rolamento holandes -> realimentaçao de r-------------
 C1=[0,0,1,0,0]
 K=[0,0,0,0,0;
-   0,0,-340,0,0]          
+   232,0,-356,0,0]       //xi=1, wn<0.8   
+//------------SAE para o rolamento -> realimentaçao de p-------------
+C2=[0,1,0,0,0]
+//K=[0,0,0,0,0;
+  // 0,0,0,0,0]
 
-    
 sae=syslin('c',A-B*K,B(:,2),C1);
 //------------Calculando os polos, frequencias e amortecimentos -----------------
 p = poles_i(sae);
 plzr(sae) // função que te desenha os pólos (e zeros) no plano complexo
 [wn,z]=damp(sae) //dá os Wn e os qsi dos 5 pólos
 T_eq=1./(wn.*z);
-disp([p,wn,z],"Polos do sistema realimentado");
+disp([p,wn,z],"Polos do sistema realimentado    Wn     xi");
 
 //Mostra as funçoes de transferência para por no relatorio
 [h]=ss2tf(ee);
