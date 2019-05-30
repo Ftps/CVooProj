@@ -14,10 +14,10 @@ endfunction
 
 fp = './Feed-Back Loop System.zcos'
 
-g = 9.81;
+g = 9.81; deg=%pi/180; kts=0.514444444;
 // --jas39 : flight condition : 1
-h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8; theta0 = aa0+gg0;
-Teng =0.50; demax =[-22, 28]; damax =18; drmax =23; flapmax =40;
+h =50; M =0.25; aa0 =3.69*deg; gg0 =0; u0 =165.1*kts; flaps =8*deg; theta0 = aa0+gg0;
+Teng =0.50; demax =[-22*deg, 28*deg]; damax =18*deg; drmax =23*deg; flapmax =40*deg;
 th0 =29; de0 =0.00; da0 =0.00; dr0 =0.00; g=9.81;
 //inertial data :
 m =10049; Ix =1434311; Iy =65079; Iz =1385502; Ixz =1763;
@@ -40,28 +40,35 @@ B=  [0, Ydr;
     Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr;
     0, 0;
     0, 0];
+C = diag([1,1,1,1,1]);
+ee=syslin('c',A,B,C) //ee=espaço de estados  
 
-C = diag([0,1,0,0,0]);
-
-
-ee=syslin('c',A,B,C) //ee=espaço de estados
-[wn, z] = damp(ee);  //dá os Wn e os qsi dos 5 pólos
-
-disp("Polos do sistema sem.controlador");
-p = poles_i(ee);
-disp(p);
+//------------Calculando os polos, frequencias e amortecimentos -----------------
+//p = poles_i(ee);
+//disp(p,"Polos do sistema sem.controlador");
 //plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
-[omegaN,z]=damp(ee)
-T_eq=1./(omegaN.*z)
+//[wn,z]=damp(ee); //dá os Wn e os qsi dos 5 pólos
+//T_eq=1./(wn.*z);
 
+//------------SAE para o rolamento holandes -> realimentaçao de r-------------
+C1=[0,0,1,0,0]
 K=[0,0,0,0,0;
-    0,0,0,0,0;
-    0,-1,0,0,0;
-    0,0,0,0,0;
-    0,0,0,0,0]
+   0,0,-340,0,0]          
 
-sae=syslin('c',A-K*C,B,C);
-[Wn, xi] = damp(sae);
-disp(poles_i(sae))
+    
+sae=syslin('c',A-B*K,B(:,2),C1);
+//------------Calculando os polos, frequencias e amortecimentos -----------------
+p = poles_i(sae);
+plzr(sae) // função que te desenha os pólos (e zeros) no plano complexo
+[wn,z]=damp(sae) //dá os Wn e os qsi dos 5 pólos
+T_eq=1./(wn.*z);
+disp([p,wn,z],"Polos do sistema realimentado");
 
-h=ss2tf(ee)
+//Mostra as funçoes de transferência para por no relatorio
+[h]=ss2tf(ee);
+h_a=h(:,1);
+h_r=h(:,2);
+
+
+
+//substituir poles_i por spec
