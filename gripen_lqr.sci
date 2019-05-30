@@ -5,9 +5,7 @@ Projeto de CVoo:
 */
 
 /*
-depois descobri que havia a função poles(sys) que fazia o que nós queriamos automaticamente
-mas ao menos assim deu para ver a sintaxe do scilab e o facto nojento de matrizes serem m() e nao m[]
-poles(sys) e poles_i(sys) dão o mesmo resultado so it works
+substituir poles_i por spec
 */
 
 clear
@@ -43,10 +41,10 @@ endfunction
 
 fp = 'Feed-Back Loop System.zcos'
 
-g = 9.81;
+g = 9.81; deg=%pi/180; kts=0.5144444444;
 // --jas39 : flight condition : 1
-h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8; theta0 = aa0+gg0;
-Teng =0.50; demax =[-22, 28]; damax =18; drmax =23; flapmax =40;
+h =50; M =0.25; aa0 =3.69*deg; gg0 =0; u0 =165.1*kts; flaps =8*deg; theta0 = aa0+gg0;
+Teng =0.50; demax =[-22*deg, 28*deg]; damax =18*deg; drmax =23*deg; flapmax =40*deg;
 th0 =29; de0 =0.00; da0 =0.00; dr0 =0.00; g=9.81;
 //inertial data :
 m =10049; Ix =1434311; Iy =65079; Iz =1385502; Ixz =1763;
