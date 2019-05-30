@@ -86,8 +86,8 @@ disp(p);      */
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-max_x = [0.4*%pi/180, 5*%pi/180, 0.1*%pi/180, 0.2*%pi/180, 0.1*%pi/180];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [15*%pi/180, 20*%pi/180]; //temos depois de limitar isto à saida do sistema com um thresholdd
+max_x = [0.08*deg, 0.4*deg, 0.1*deg, 0.08*deg, 0.1*deg];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [15*deg, 2*deg]; //temos depois de limitar isto à saida do sistema com um thresholdd
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
 Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
@@ -113,11 +113,10 @@ F = inv(G);            // a G está toda comida
 
 norm(A'*X+X*A-X*B*inv(R)*B'*X+Q,1)
 
-disp("Polos do sistema apos LQR");
+disp("Polos do sistema apos LQR, wn e xi");
 pol = spec(A-B*K); // polos do sistema em LQR
-disp(pol);
 
-xcos(fp);
+//xcos(fp);
 
 /* código para desenhar pólos do sistema apos o LQR no plano complexo e obter as caracteristicas para as qualidades de voo:
 Z=syslin('c',A-B*K,B,C);
@@ -134,3 +133,5 @@ Z=syslin('c',A-B*K,B,C);
 //plzr(Z)
 [omegaN,z]=damp(pol)
 T_eq=1./(omegaN.*z)
+disp([pol, omegaN, z]);
+
