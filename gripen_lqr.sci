@@ -89,6 +89,7 @@ disp(p);      */
 max_x = [0.5*deg, 5*deg, 20*deg, 0.2*deg, 0.1*deg];     // Valores máximos para os estados x e entradas u (Bryson)
 max_u = [15*deg, 20*deg]; //temos depois de limitar isto à saida do sistema com um thresholdd
 
+
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
 Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
 R = get_Mat(max_u);               // Matriz de custo para o vetor de entradas - for testing purposes   diag([1, 5, 0.3, 2, 3]);
