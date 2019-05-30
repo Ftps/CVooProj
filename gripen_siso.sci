@@ -14,9 +14,9 @@ endfunction
 
 fp = './Feed-Back Loop System.zcos'
 
-g = 9.81;
+g = 9.81; deg=%pi/180;
 // --jas39 : flight condition : 1
-h =50; M =0.25; aa0 =3.69; gg0 =0; u0 =165.1; flaps =8; theta0 = aa0+gg0;
+h =50; M =0.25; aa0 =3.69*deg; gg0 =0; u0 =165.1*0.51444 /*m/s*/; flaps =8*deg; theta0 = aa0+gg0; 
 Teng =0.50; demax =[-22, 28]; damax =18; drmax =23; flapmax =40;
 th0 =29; de0 =0.00; da0 =0.00; dr0 =0.00; g=9.81;
 //inertial data :
@@ -48,17 +48,22 @@ p = poles_i(ee);
 //disp(p,"Polos do sistema sem.controlador");
 //plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
 [wn,z]=damp(ee); //dá os Wn e os qsi dos 5 pólos
-T_eq=1./(omegaN.*z);
+T_eq=1./(wn.*z);
 
 //------------SAE para o rolamento holandes -> realimentaçao de r-------------
 C1=[0,0,1,0,0]
-sae=syslin('c',A-K*C,B(:,2),C1);
+K=[0,1,0,0,0;
+    0,0,0,0,0]
 
-/*K=[0,0,0,0,0;
-    0,0,0,0,0;
-    0,-1,0,0,0;
-    0,0,0,0,0;
-    0,0,0,0,0]*/
+    
+sae=syslin('c',A-B*K,B(:,2),C1);
+//------------Calculando os polos, frequencias e amortecimentos -----------------
+p = poles_i(sae)
+//disp(p,"Polos do sistema sem.controlador");
+//plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
+[wn,z]=damp(sae) //dá os Wn e os qsi dos 5 pólos
+T_eq=1./(wn.*z);
+
 
 //Mostra as funçoes de transferência para por no relatorio
 [h]=ss2tf(ee);
