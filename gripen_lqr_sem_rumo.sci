@@ -40,6 +40,9 @@ xde=0.000; zde=-0.002; mde=-0.003; xdsp=0.000; zdsp=0.000; mdsp=-0.077; xdt=7.65
 Lda=-0.384; Nda=-0.029; Ydr=-0.001; Ldr=-0.000; Ndr=-0.003;
 tt0=gg0+aa0; //theta_zero
 
+V_n = -10; V_e = 0;
+x_0 = 0; y_0 = 0;
+
 A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0) ;
     lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0 ;
     nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0;
