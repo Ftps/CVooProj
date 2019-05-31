@@ -59,7 +59,7 @@ tt0=gg0+aa0; //theta_zero
 
 A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0), 0;
     lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0, 0;
-    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0, 0;
+    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nr+(Ixz/Iz)*lr, 0, 0;
     0, 1, tan(tt0), 0, 0;
     0, 0, 1/cos(tt0), 0, 0];
 B=  [0, Ydr;
