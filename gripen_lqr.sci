@@ -86,12 +86,12 @@ disp(p);      */
 
 // https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
-max_x = [0.08*deg, 0.4*deg, 0.1*deg, 0.08*deg, 0.1*deg];     // Valores máximos para os estados x e entradas u (Bryson)
-max_u = [15*deg, 2*deg]; //temos depois de limitar isto à saida do sistema com um thresholdd
+max_x = [5*deg, 0.4*deg, 0.75*deg, 0.2*deg, 0.05*deg];     // Valores máximos para os estados x e entradas u (Bryson)
+max_u = [15*deg, 10*deg]; //temos depois de limitar isto à saida do sistema com um thresholdd
 
 // x = [bb, p, r, phi, psi]^T; u = [dA, dR]^T;
-Q = get_Mat(max_x);               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
-R = get_Mat(max_u);               // Matriz de custo para o vetor de entradas - for testing purposes   diag([1, 5, 0.3, 2, 3]);
+Q = get_Mat(max_x)/100;               // Matriz de custo para o vetor de estados - ambos iniciados randomicamente
+R = get_Mat(max_u)/100;               // Matriz de custo para o vetor de entradas - for testing purposes   diag([1, 5, 0.3, 2, 3]);
                                 // Posteriormente usar método de Bryson       diag([2, 1]); <- feito com o max_x e max_u
                                 
 //Aqui começa o lqr(A,B,C1,D12)
@@ -104,12 +104,13 @@ P=syslin('c',A,B,C1,D12);
 [K,X]=lqr(P);
 // Acaba aqui. Estas linhs de codigo fazem o LQR no Scilab
 K = -K;
-C_1 = [0, 0, 0, 1, 0;
-       0, 0, 0, 0, 1];
+C_1 = [0, 0, 0, 0, 1;
+       1, 0, 0, 0, 0];
 
           // eles aqui definem o K para estar alimentado positivamente, assim está de acordo com a sebenta
 G = -C_1*inv(A-B*K)*B;
-F = inv(G);            // a G está toda comida
+F = inv(G);
+//F = (10^7)*[-1.047, 1.1809; -2.818, 3.1785]
 
 norm(A'*X+X*A-X*B*inv(R)*B'*X+Q,1)
 
