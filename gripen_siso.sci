@@ -30,39 +30,35 @@ xde=0.000; zde=-0.002; mde=-0.003; xdsp=0.000; zdsp=0.000; mdsp=-0.077; xdt=7.65
 Lda=-0.384; Nda=-0.029; Ydr=-0.001; Ldr=-0.000; Ndr=-0.003;
 tt0=gg0+aa0; //theta_zero
 
-A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0), 0;
-    lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0, 0;
-    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0, 0;
-    0, 1, tan(tt0), 0, 0;
-    0, 0, 1/cos(tt0), 0, 0];
+A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0);
+    lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0;
+    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nr+(Ixz/Iz)*lr, 0;
+    0, 1, tan(tt0), 0];
 B=  [0, Ydr;
     Lda+(Ixz/Ix)*Nda, Ldr+(Ixz/Ix)*Ndr;
     Nda+(Ixz/Iz)*Lda, Ndr+(Ixz/Iz)*Ldr;
-    0, 0;
     0, 0];
-C = diag([1,1,1,1,1]);
+C = diag([1,1,1,1]);
 D = zeros(B);
 ee=syslin('c',A,B,C,D) //ee=espaço de estados  
 
 //------------Calculando os polos, frequencias e amortecimentos -----------------
-//p = poles_i(ee);
-//disp(p,"Polos do sistema sem.controlador");
-//plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
-//[wn,z]=damp(ee); //dá os Wn e os qsi dos 5 pólos
-//T_eq=1./(wn.*z);
+p = poles_i(ee);
+disp([p,wn,z,T_eq],"Polos do sistema original    Wn     xi       T_eq")
+plzr(ee) // função que te desenha os pólos (e zeros) no plano complexo
+[wn,z]=damp(ee); //dá os Wn e os qsi dos 4 pólos
+T_eq=1./(wn.*z);
 
 //------------SAE para o rolamento holandes -> PD-------------
+//A_RH=[A(1,1),A(1,3);
+//      A(3,1),A(3,3)];
+//rh=syslin('c',A_RH,B(1:2,:),[1,0;0,1],[0,0;0,0])
+//[h]=ss2tf(rh);
 
-
-
-
-
-
-
-
-//C1=[0,0,1,0,0]
-//K=[0,0,0,0,0;          //espiral instável mas com T_2=341.7717 >12s -->nivel 1
-//   20,0,-285.5,0,0]    //wn=1.0018443   xi=0.3506952   -> nivel 1 RH
+//------------SAE para o rolamento holandes -> rwalimentação de r-------------
+C1=[0,0,1,0]
+K=[0,0,0,0;          //espiral instável mas com T_2=341.7717 >12s -->nivel 1
+   20,0,-285.5,0]    //wn=1.0018443   xi=0.3506952   -> nivel 1 RH
 
 //------------SAE para o rolamento -> realimentaçao de p-------------
 //Mostra as funçoes de transferência para o root locus
@@ -71,9 +67,9 @@ clf()
 evans(-h(2,1),2)
 sgrid(0.6,1)
 
-C2=[0,1,0,0,0]
-K=[0,-0.7098,0,0,0;
-   0,0,0,0,0]         //pólo em -1.000029. T=1 ->nivel 1 Rolamento
+C2=[0,1,0,0]
+K=[0,-0.7104,0,0;
+   0,0,0,0]         //pólo em -1.0003028. T=1 ->nivel 1 Rolamento
 */
 
 //------------Calculando os polos, frequencias e amortecimentos -----------------
@@ -82,7 +78,7 @@ p = poles_i(sae);
 plzr(sae) // função que te desenha os pólos (e zeros) no plano complexo
 [wn,z]=damp(sae) //dá os Wn e os qsi dos 5 pólos
 T_eq=1./(wn.*z); ret=z.*wn;
-disp([p,wn,z,ret],"Polos do sistema realimentado    Wn     xi");
+disp([p,wn,z,ret],"Polos do sistema realimentado    Wn     xi       wn*xi");
 
 
 //substituir poles_i por spec

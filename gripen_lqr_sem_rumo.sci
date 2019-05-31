@@ -45,7 +45,7 @@ x_0 = 0; y_0 = 0;
 
 A = [ybb, yp+aa0, yr-1, (g/u0)*cos(tt0) ;
     lbb+(Ixz/Ix)*nbb, lp+(Ixz/Ix)*np, lr+(Ixz/Ix)*nr, 0 ;
-    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nbb+(Ixz/Iz)*lbb, 0;
+    nbb+(Ixz/Iz)*lbb, np+(Ixz/Iz)*lp, nr+(Ixz/Iz)*lr, 0;
     0, 1, tan(tt0), 0];
 B=  [0, Ydr;
     Lda+(Ixz/Ix)*Nda, Ldr+(Ixz/Ix)*Ndr;
@@ -64,11 +64,7 @@ p = poles_i(ee);
 disp(p); */
 // plzr(ee) --> função que te desenha os pólos (e zeros) no plano complexo
 
-// Para trabalhar com o XCos (simulink do SciLab), ver links em baixo:
-// https://steemit.com/utopian-io/@svozkan/simple-control-system-design-with-xcos-scilab-tutorial
-// https://steemit.com/utopian-io/@svozkan/xcos-modelling-and-simulation-scilab-tutorial
 
-// https://help.scilab.org/docs/5.5.2/en_US/lqr.html <- how to LQR in SciLab
 
 
 max_x = [0.08*deg, 0.4*deg, 0.1*deg, 0.08*deg];     // Valores máximos para os estados x e entradas u (Bryson)
