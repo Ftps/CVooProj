@@ -1,24 +1,30 @@
+/*
+Programa principal para a realização do circuito de patrulha;
+
+De forma a correr o programa, correr primeiro este script que carregará as variáveis
+necessárias do script auxiliar de LQR e abrirá o simulador em XCOS. Sempre que quiser
+correr a simulação, terá de correr de novo o script devido à alterção de variáveis globais.
+
+
+GRIPEN - Proj 41
+*/
 
 exec("gripen_lqr.sci", -1);
 
-x0 = 0;
-y0 = 0;
 global i;
 i = 1;
-Vn = 0;
-Ve = 0;
+
 
 r_min = (u0^2)/(g*tan(30*deg));    
 patrol = r_min*[0, 0;
-                3, 0;
-                8, 0;
+                3, 1.75;
                 8, 2;
-                3, 2;
-                3, 4;
                 8, 4;
-                8, 6;
+                3, 4;
                 3, 6;
-                -4, 0];
+                8, 6;
+                8, 8;
+                3, 8];
 d = 200;
 ramp_slope = %pi*r_min/u0;
 
@@ -39,8 +45,8 @@ function p = delta_angle(x1, y1, x2, y2, psi)
     if abs(p) > %pi then
         p = -(2*%pi-p);
     end
-    if abs(p) > 4*u0/r_min then
-        p = sign(p)*4*u0/r_min;
+    if abs(p) > 4.25*u0/r_min then
+        p = sign(p)*4.25*u0/r_min;
     end
     disp(p, 'Second Corr');
 endfunction
@@ -49,7 +55,7 @@ function [ref] = patrulha(N, E, psi)
     global i;
     disp([N, E, i], 'Coord:');
     if dist(N, E, patrol(i,1), patrol(i,2)) < d then
-        if i == 10 then
+        if i == 9 then
             i = 1;
         else
             i = i + 1;
